@@ -44,6 +44,11 @@ class MonologHandler extends RollbarHandler
                 if (is_object($data)) {
                     if (isset($data->id)) {
                         $person['id'] = $data->id;
+                    } elseif (method_exists($data, 'getKey')) {
+                        $person['id'] = $data->getKey();
+                    }
+                    
+                    if (isset($person['id'])) {
                         if (isset($data->username)) {
                             $person['username'] = $data->username;
                         }
@@ -59,7 +64,7 @@ class MonologHandler extends RollbarHandler
         }
 
         // Add session data.
-        if ($session = $this->app->session->all()) {
+        if (isset($this->app->session) && $session = $this->app->session->all()) {
             // Add user session information.
             if (isset($person['session'])) {
                 $person['session'] = array_merge($session, $person['session']);
