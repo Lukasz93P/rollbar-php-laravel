@@ -42,7 +42,6 @@ class RollbarServiceProvider extends ServiceProvider
             $handleError = (bool) Arr::pull($config, 'handle_error');
             $handleFatal = (bool) Arr::pull($config, 'handle_fatal');
 
-            $config['handler'] = $config['rollbar_handler'] ?? null;
             Rollbar::init($config, $handleException, $handleError, $handleFatal);
 
             return Rollbar::logger();
